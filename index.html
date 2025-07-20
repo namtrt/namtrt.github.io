@@ -785,8 +785,6 @@
                     if (matchIndex === 3 || matchIndex === 4) {
                         targetMatchIndex = 3
                     }
-
-                    console.log(matchIndex, nextRound2_1, targetMatchIndex)
                     
                     if (targetMatchIndex < nextRound2_1.matches.length) {
                         const targetMatch = nextRound2_1.matches[targetMatchIndex];
@@ -799,7 +797,20 @@
                     
                     // Loser goes to Round 2.2
                     const nextRound2_2 = tournament.rounds[2];
-                    const targetMatchIndex2 = Math.floor(matchIndex / 2);
+                    let targetMatchIndex2;
+
+                    if (matchIndex === 0 || matchIndex === 7) {
+                        targetMatchIndex2 = 2
+                    }
+                    if (matchIndex === 1 || matchIndex === 6) {
+                        targetMatchIndex2 = 1
+                    }
+                    if (matchIndex === 2 || matchIndex === 5) {
+                        targetMatchIndex2 = 3
+                    }
+                    if (matchIndex === 3 || matchIndex === 4) {
+                        targetMatchIndex2 = 0
+                    }
                     
                     if (targetMatchIndex2 < nextRound2_2.matches.length) {
                         const targetMatch = nextRound2_2.matches[targetMatchIndex2];
