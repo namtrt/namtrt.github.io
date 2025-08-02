@@ -566,7 +566,6 @@
             }
             
             function createRound(roundNum, name, matchCount, players) {
-                console.log("aaa")
                 const matches = [];
                 
                 for (let i = 0; i < matchCount; i++) {
@@ -724,22 +723,60 @@
                 
                 if (roundIndex === 1) { // Round 2.1 (Winners bracket)
                     // Tính số trận tương ứng với cách ghép cặp mới
-                    if (isPlayer1) {
-                        return {text: `Thắng trận ${matchIndex + 1}`, class: "win-placeholder"};
+                    if (matchIndex === 0) {
+                        return {text: `Thắng trận ${(isPlayer1 ? 1 : 8)}`, class: "win-placeholder"};
+                    } else if (matchIndex === 1) {
+                        return {text: `Thắng trận ${(isPlayer1 ? 7: 2)}`, class: "win-placeholder"};
+                    } else if (matchIndex === 2) {
+                        return {text: `Thắng trận ${(isPlayer1 ? 3 : 6)}`, class: "win-placeholder"};
                     } else {
-                        return {text: `Thắng trận ${8 - matchIndex}`, class: "win-placeholder"};
+                        return {text: `Thắng trận ${(isPlayer1 ? 4 : 5)}`, class: "win-placeholder"};
                     }
                 }
                 
                 if (roundIndex === 2) { // Round 2.2 (Losers bracket)
-                    return {text: `Thua trận ${(matchIndex * 2) + (isPlayer1 ? 1 : 2)}`, class: "lose-placeholder"};
+                    if (matchIndex === 0) {
+                        return {text: `Thua trận ${(isPlayer1 ? 3 : 4)}`, class: "lose-placeholder"};
+                    } else if (matchIndex === 1) {
+                        return {text: `Thua trận ${(isPlayer1 ? 5 : 6)}`, class: "lose-placeholder"};
+                    } else if (matchIndex === 2) {
+                        return {text: `Thua trận ${(isPlayer1 ? 7 : 8)}`, class: "lose-placeholder"};
+                    } else {
+                        return {text: `Thua trận ${(isPlayer1 ? 1 : 2)}`, class: "lose-placeholder"};
+                    }
                 }
                 
                 if (roundIndex === 3) { // Round 3 (Losers bracket)
-                    if (isPlayer1) {
-                        return {text: `Thua trận ${9 + matchIndex}`, class: "lose-placeholder"};
+                    // if (isPlayer1) {
+                    //     return {text: `Thua trận ${9 + matchIndex}`, class: "lose-placeholder"};
+                    // } else {
+                    //     return {text: `Thắng trận ${13 + matchIndex}`, class: "win-placeholder"};
+                    // }
+
+                    if (matchIndex === 0) {
+                        if (isPlayer1) {
+                            return {text: `Thua trận 10`, class: "lose-placeholder"};
+                        } else {
+                            return {text: `Thắng trận 14`, class: "win-placeholder"};
+                        }
+                    } else if (matchIndex === 1) {
+                        if (isPlayer1) {
+                            return {text: `Thua trận 9`, class: "lose-placeholder"};
+                        } else {
+                            return {text: `Thắng trận 13`, class: "win-placeholder"};
+                        }
+                    } else if (matchIndex === 2) {
+                        if (isPlayer1) {
+                            return {text: `Thua trận 12`, class: "lose-placeholder"};
+                        } else {
+                            return {text: `Thắng trận 16`, class: "win-placeholder"};
+                        }
                     } else {
-                        return {text: `Thắng trận ${13 + matchIndex}`, class: "win-placeholder"};
+                        if (isPlayer1) {
+                            return {text: `Thua trận 11`, class: "lose-placeholder"};
+                        } else {
+                            return {text: `Thắng trận 15`, class: "win-placeholder"};
+                        }
                     }
                 }
                 
@@ -799,17 +836,17 @@
                     const nextRound2_2 = tournament.rounds[2];
                     let targetMatchIndex2;
 
-                    if (matchIndex === 0 || matchIndex === 7) {
-                        targetMatchIndex2 = 2
-                    }
-                    if (matchIndex === 1 || matchIndex === 6) {
-                        targetMatchIndex2 = 1
-                    }
-                    if (matchIndex === 2 || matchIndex === 5) {
+                    if (matchIndex === 0 || matchIndex === 1) {
                         targetMatchIndex2 = 3
                     }
-                    if (matchIndex === 3 || matchIndex === 4) {
+                    if (matchIndex === 2 || matchIndex === 3) {
                         targetMatchIndex2 = 0
+                    }
+                    if (matchIndex === 4 || matchIndex === 5) {
+                        targetMatchIndex2 = 1
+                    }
+                    if (matchIndex === 6 || matchIndex === 7) {
+                        targetMatchIndex2 = 2
                     }
                     
                     if (targetMatchIndex2 < nextRound2_2.matches.length) {
@@ -830,15 +867,35 @@
                     
                     // Loser goes to Round 3 (Losers bracket)
                     const nextRound3 = tournament.rounds[3];
-                    if (matchIndex < nextRound3.matches.length) {
-                        nextRound3.matches[matchIndex].player1 = loser;
+                    // if (matchIndex < nextRound3.matches.length) {
+                    //     nextRound3.matches[matchIndex].player1 = loser;
+                    // }
+
+                    if (matchIndex === 0) {
+                        nextRound3.matches[1].player1 = loser;
+                    } else if (matchIndex === 1) {
+                        nextRound3.matches[0].player1 = loser;
+                    } else if (matchIndex === 2) {
+                        nextRound3.matches[3].player1 = loser;
+                    } else if (matchIndex === 3) {
+                        nextRound3.matches[2].player1 = loser;
                     }
                 } 
                 else if (roundIndex === 2) { // Round 2.2 (Losers bracket)
                     // Winner goes to Round 3
                     const nextRound3 = tournament.rounds[3];
-                    if (matchIndex < nextRound3.matches.length) {
-                        nextRound3.matches[matchIndex].player2 = winner;
+                    // if (matchIndex < nextRound3.matches.length) {
+                    //     nextRound3.matches[matchIndex].player2 = winner;
+                    // }
+
+                    if (matchIndex === 0) {
+                        nextRound3.matches[1].player2 = winner;
+                    } else if (matchIndex === 1) {
+                        nextRound3.matches[0].player2 = winner;
+                    } else if (matchIndex === 2) {
+                        nextRound3.matches[3].player2 = winner;
+                    } else if (matchIndex === 3) {
+                        nextRound3.matches[2].player2 = winner;
                     }
                 } 
                 else if (roundIndex === 3) { // Round 3 (Losers bracket)
